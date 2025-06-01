@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Footer from './footer/Footer'
-import Header from './header/header'
+import Header from './header/Header'
 import Input from './input/input'
 import TaskList from './taskList/TaskList'
 
