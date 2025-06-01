@@ -1,13 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Footer from './footer/Footer'
 import Header from './header/Header'
 import Input from './input/Input'
 import TaskList from './taskList/TaskList'
 
 export const Container = () => {
-  const [taskList, setTaskList] = useState([
+  const [taskList, setTaskList] = useState([])
 
-  ])
+  useEffect(() => {
+    const tachesDb = JSON.parse(localStorage.getItem('taches')) || {}
+    if (Object.keys(tachesDb).length !== 0) {
+      setTaskList(tachesDb)
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('taches', JSON.stringify(taskList))
+  }, [taskList])
 
   const addTask = title => {
     const newTask = {
@@ -18,8 +27,6 @@ export const Container = () => {
 
     setTaskList([...taskList, newTask])
   }
-
-  // console.log(taskList);
 
   const getTaksCount = () => {
     const completedTask = taskList.filter(
@@ -35,17 +42,16 @@ export const Container = () => {
 
   const { completedTask, incompletedTask } = getTaksCount()
 
-  const stateTask  = (id)=>{
-      setTaskList (
-        taskList.map((task) => task.id===id ? {...task, isCompleted: !task.isCompleted } : task )
+  const stateTask = id => {
+    setTaskList(
+      taskList.map(task =>
+        task.id === id ? { ...task, isCompleted: !task.isCompleted } : task
       )
+    )
   }
 
-  const deleteTask = (id) =>{
-
-    setTaskList (
-      taskList.filter((task) => task.id !== id)
-    )
+  const deleteTask = id => {
+    setTaskList(taskList.filter(task => task.id !== id))
   }
 
   return (
@@ -57,7 +63,7 @@ export const Container = () => {
           listTask={taskList}
           incompletedTask={incompletedTask}
           stateTask={stateTask}
-          deleteTask ={deleteTask}
+          deleteTask={deleteTask}
         ></TaskList>
         <Footer completedTask={completedTask}></Footer>
       </main>
