@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Footer from './footer/Footer'
 import Header from './header/Header'
-import Input from './input/input'
+import Input from './input/Input'
 import TaskList from './taskList/TaskList'
 
 export const Container = () => {
